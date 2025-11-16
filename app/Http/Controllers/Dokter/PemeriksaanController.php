@@ -10,6 +10,7 @@ use App\Models\ResepDetail;
 use App\Models\Obat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PemeriksaanController extends Controller
 {
@@ -42,7 +43,7 @@ class PemeriksaanController extends Controller
             // Simpan Rekam Medis
             RekamMedis::create([
                 'kunjungan_id' => $kunjungan->id,
-                'dokter_id' => auth()->id(),
+                'dokter_id' => Auth::id(),
                 'anamnesis' => $validated['anamnesis'],
                 'diagnosis' => $validated['diagnosis'],
                 'tindakan_medis' => $validated['tindakan_medis'] ?? null,
@@ -53,7 +54,7 @@ class PemeriksaanController extends Controller
                 // Buat resep
                 $resep = Resep::create([
                     'kunjungan_id' => $kunjungan->id,
-                    'dokter_id' => auth()->id(),
+                    'dokter_id' => Auth::id(),
                     'status_resep' => 'Baru',
                 ]);
 

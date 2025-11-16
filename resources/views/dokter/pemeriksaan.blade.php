@@ -95,7 +95,6 @@
     </div>
 </div>
 
-@push('scripts')
 <script>
 let obatIndex = 0;
 
@@ -140,5 +139,4 @@ function removeObat(index) {
     }
 }
 </script>
-@endpush
 @endsection

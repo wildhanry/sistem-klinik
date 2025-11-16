@@ -10,7 +10,9 @@ use App\Http\Controllers\Apotek\DashboardController as ApotekDashboardController
 use App\Http\Controllers\Apotek\ObatController;
 use App\Http\Controllers\Apotek\ResepController;
 use App\Http\Controllers\Pimpinan\DashboardController as PimpinanDashboardController;
+use App\Http\Controllers\Pimpinan\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,8 +20,12 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     // Redirect based on role
-    $role = auth()->user()->role;
-    return redirect()->route($role . '.dashboard');
+    /** @var \App\Models\User $user */
+    $user = Auth::user();
+    if (!$user) {
+        return redirect()->route('login');
+    }
+    return redirect()->route($user->role . '.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -54,6 +60,11 @@ Route::middleware(['auth', 'role:apotek'])->prefix('apotek')->name('apotek.')->g
 // Pimpinan Routes
 Route::middleware(['auth', 'role:pimpinan'])->prefix('pimpinan')->name('pimpinan.')->group(function () {
     Route::get('/dashboard', [PimpinanDashboardController::class, 'index'])->name('dashboard');
+    
+    // User Management
+    Route::resource('user', UserController::class);
+    Route::get('/user/{user}/reset-password', [UserController::class, 'resetPassword'])->name('user.reset-password');
+    Route::patch('/user/{user}/update-password', [UserController::class, 'updatePassword'])->name('user.update-password');
 });
 
 require __DIR__.'/auth.php';
