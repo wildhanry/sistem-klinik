@@ -53,14 +53,11 @@
    Region: Singapore (atau terdekat)
    Branch: main
    Root Directory: (kosongkan)
-   Runtime: PHP
+   Runtime: Docker
    ```
 
-   **Build & Deploy:**
-   ```
-   Build Command: bash build.sh
-   Start Command: bash deploy.sh && php artisan serve --host=0.0.0.0 --port=$PORT
-   ```
+   **Docker akan auto-detect Dockerfile!**
+   Tidak perlu isi Build Command atau Start Command.
 
 3. **Environment Variables**
    Klik "Environment" tab, tambahkan variable berikut:
@@ -75,11 +72,12 @@
    
    # Database (dari Neon)
    DB_CONNECTION=pgsql
-   DB_HOST=ep-xxxxx.region.aws.neon.tech
+   DB_HOST=ep-aged-haze-a1tz51u3-pooler.ap-southeast-1.aws.neon.tech
    DB_PORT=5432
    DB_DATABASE=neondb
-   DB_USERNAME=username_dari_neon
-   DB_PASSWORD=password_dari_neon
+   DB_USERNAME=neondb_owner
+   DB_PASSWORD=npg_rzysSqGMQ7H2
+   DB_SSLMODE=require
    
    # Session & Cache
    SESSION_DRIVER=database
