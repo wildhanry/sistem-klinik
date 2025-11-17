@@ -9,8 +9,19 @@ php artisan view:clear
 php artisan route:clear
 
 # Force rollback all migrations first to ensure clean state
-echo "Rolling back all migrations..."
-php artisan migrate:reset --force --no-interaction || echo "No migrations to rollback"
+echo "Resetting database schema completely..."
+php artisan tinker --execute="
+try {
+    DB::statement('DROP SCHEMA public CASCADE');
+    DB::statement('CREATE SCHEMA public');
+    DB::statement('GRANT ALL ON SCHEMA public TO neondb_owner');
+    DB::statement('GRANT ALL ON SCHEMA public TO public');
+    echo 'Schema reset successful\n';
+} catch (\Exception \$e) {
+    echo 'Schema reset failed, trying migrate:reset: ' . \$e->getMessage() . '\n';
+}
+"
+php artisan migrate:reset --force --no-interaction || echo "Migrate reset done or no migrations"
 
 # Run migrations fresh
 echo "Running fresh migrations..."
