@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: sistem-klinik
+    runtime: docker
+    plan: free
+    branch: main
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: Sistem Klinik
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: ep-aged-haze-a1tz51u3-pooler.ap-southeast-1.aws.neon.tech
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: klinik_db
+      - key: DB_USERNAME
+        value: neondb_owner
+      - key: DB_PASSWORD
+        value: npg_rzysSqGMQ7H2
+      - key: DB_SSLMODE
+        value: require
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_LEVEL
+        value: error
