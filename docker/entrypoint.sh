@@ -3,12 +3,20 @@ set -e
 
 echo "Starting Laravel application setup..."
 
-# Wait for database to be ready
+# Wait for database to be ready with simple connection test
 echo "Waiting for database connection..."
-until php artisan db:show 2>/dev/null; do
-    echo "Database is unavailable - sleeping"
+max_attempts=30
+attempt=0
+until php artisan migrate:status --no-interaction 2>/dev/null || [ $attempt -eq $max_attempts ]; do
+    echo "Database is unavailable - sleeping (attempt $attempt/$max_attempts)"
     sleep 2
+    attempt=$((attempt+1))
 done
+
+if [ $attempt -eq $max_attempts ]; then
+    echo "Failed to connect to database after $max_attempts attempts"
+    exit 1
+fi
 
 echo "Database is ready!"
 
