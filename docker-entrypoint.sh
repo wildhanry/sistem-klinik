@@ -4,22 +4,22 @@ echo "Starting Laravel application..."
 
 # Clear all caches first
 php artisan config:clear
-php artisan cache:clear
+php artisan cache:clear  
 php artisan view:clear
 php artisan route:clear
 
-# Check database connection
-echo "Checking database connection..."
-php artisan migrate:status || echo "Database not accessible or no migrations yet"
+# Force rollback all migrations first to ensure clean state
+echo "Rolling back all migrations..."
+php artisan migrate:reset --force --no-interaction || echo "No migrations to rollback"
 
-# Run migrations (non-destructive approach)
-echo "Running database migrations..."
+# Run migrations fresh
+echo "Running fresh migrations..."
 php artisan migrate --force --no-interaction
 
-# Seed database only if tables are empty
+# Seed database
 echo "Seeding database..."
-php artisan db:seed --force --no-interaction --class=UserSeeder || echo "UserSeeder already run or failed"
-php artisan db:seed --force --no-interaction --class=ObatSeeder || echo "ObatSeeder already run or failed"
+php artisan db:seed --force --no-interaction --class=UserSeeder || echo "UserSeeder failed"
+php artisan db:seed --force --no-interaction --class=ObatSeeder || echo "ObatSeeder failed"
 
 # Cache configuration
 php artisan config:cache
