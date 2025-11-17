@@ -8,21 +8,18 @@ php artisan cache:clear
 php artisan view:clear
 php artisan route:clear
 
-# Drop all tables and run fresh migrations
-echo "Running database migrations..."
-php artisan migrate:fresh --force --no-interaction
+# Check database connection
+echo "Checking database connection..."
+php artisan migrate:status || echo "Database not accessible or no migrations yet"
 
-# Check if migration was successful
-if [ $? -eq 0 ]; then
-    echo "Migrations successful, seeding database..."
-    php artisan db:seed --force --no-interaction --class=UserSeeder
-    php artisan db:seed --force --no-interaction --class=ObatSeeder
-else
-    echo "Migration failed, retrying with individual migrate..."
-    php artisan migrate --force --no-interaction
-    php artisan db:seed --force --no-interaction --class=UserSeeder
-    php artisan db:seed --force --no-interaction --class=ObatSeeder
-fi
+# Run migrations (non-destructive approach)
+echo "Running database migrations..."
+php artisan migrate --force --no-interaction
+
+# Seed database only if tables are empty
+echo "Seeding database..."
+php artisan db:seed --force --no-interaction --class=UserSeeder || echo "UserSeeder already run or failed"
+php artisan db:seed --force --no-interaction --class=ObatSeeder || echo "ObatSeeder already run or failed"
 
 # Cache configuration
 php artisan config:cache
