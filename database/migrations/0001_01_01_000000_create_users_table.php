@@ -14,17 +14,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->index();
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role', 50)->default('pendaftaran');
             $table->rememberToken();
             $table->timestamps();
-        });
-        
-        // Add unique constraint in separate statement for PostgreSQL
-        Schema::table('users', function (Blueprint $table) {
-            $table->unique('email');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

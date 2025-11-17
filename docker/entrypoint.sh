@@ -24,9 +24,9 @@ echo "Database is ready!"
 php artisan config:clear
 php artisan view:clear
 
-# Run migrations
-echo "Running migrations..."
-php artisan migrate --force --no-interaction
+# Run migrations fresh (drop all tables first)
+echo "Running fresh migrations..."
+php artisan migrate:fresh --force --no-interaction
 
 # Now safe to clear cache (table sudah ada)
 php artisan cache:clear
