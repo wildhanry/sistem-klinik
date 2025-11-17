@@ -11,13 +11,13 @@ echo "DB_PORT: ${DB_PORT}"
 echo "DB_DATABASE: ${DB_DATABASE}"
 echo "DB_USERNAME: ${DB_USERNAME}"
 
-# Wait for database to be ready with simple connection test
-echo "Waiting for database connection..."
-max_attempts=30
+# Test database connection with a simple query
+echo "Testing database connection..."
+max_attempts=15
 attempt=0
-until php artisan migrate:status --no-interaction 2>&1 || [ $attempt -eq $max_attempts ]; do
-    echo "Database is unavailable - sleeping (attempt $attempt/$max_attempts)"
-    sleep 3
+until php -r "new PDO('mysql:host=${DB_HOST};port=${DB_PORT};dbname=${DB_DATABASE}', '${DB_USERNAME}', '${DB_PASSWORD}');" 2>/dev/null || [ $attempt -eq $max_attempts ]; do
+    echo "Database is unavailable - waiting (attempt $attempt/$max_attempts)"
+    sleep 2
     attempt=$((attempt+1))
 done
 
@@ -27,7 +27,7 @@ if [ $attempt -eq $max_attempts ]; then
     exit 1
 fi
 
-echo "Database is ready!"
+echo "Database connection successful!"
 
 # Clear config cache only (skip cache:clear karena table belum ada)
 php artisan config:clear
