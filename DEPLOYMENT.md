@@ -66,17 +66,17 @@
    # App Settings
    APP_NAME="Sistem Klinik"
    APP_ENV=production
-   APP_KEY=base64:GENERATE_NANTI
+   APP_KEY=base64:GENERATE_DENGAN_php_artisan_key:generate_--show
    APP_DEBUG=false
-   APP_URL=https://sistem-klinik.onrender.com
+   APP_URL=https://your-app-name.onrender.com
    
-   # Database (dari Neon)
+   # Database (dari Neon - ISI SESUAI CONNECTION STRING KAMU)
    DB_CONNECTION=pgsql
-   DB_HOST=ep-aged-haze-a1tz51u3-pooler.ap-southeast-1.aws.neon.tech
+   DB_HOST=your-neon-host.neon.tech
    DB_PORT=5432
    DB_DATABASE=neondb
-   DB_USERNAME=neondb_owner
-   DB_PASSWORD=npg_rzysSqGMQ7H2
+   DB_USERNAME=your-username
+   DB_PASSWORD=your-password
    DB_SSLMODE=require
    
    # Session & Cache

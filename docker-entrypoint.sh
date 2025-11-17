@@ -1,14 +1,13 @@
 #!/bin/bash
-set -e
 
 echo "Starting Laravel application..."
 
-# Run migrations
-php artisan migrate --force --no-interaction
+# Run migrations with fresh (drop all tables first)
+php artisan migrate:fresh --force --no-interaction
 
-# Seed database if needed
-php artisan db:seed --force --no-interaction --class=UserSeeder || true
-php artisan db:seed --force --no-interaction --class=ObatSeeder || true
+# Seed database
+php artisan db:seed --force --no-interaction --class=UserSeeder
+php artisan db:seed --force --no-interaction --class=ObatSeeder
 
 # Cache configuration
 php artisan config:cache
