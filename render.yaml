@@ -15,7 +15,7 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: DB_CONNECTION
-        value: pgsql
+        value: mysql
       - key: DB_HOST
         sync: false
       - key: DB_PORT
@@ -26,8 +26,6 @@ services:
         sync: false
       - key: DB_PASSWORD
         sync: false
-      - key: DB_SSLMODE
-        value: require
       - key: SESSION_DRIVER
         value: database
       - key: CACHE_STORE
