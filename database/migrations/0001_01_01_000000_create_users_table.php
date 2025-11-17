@@ -14,30 +14,28 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email', 255);
+            $table->string('email', 255)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role', 50)->default('pendaftaran');
-            $table->rememberToken();
-            $table->timestamps();
-            $table->unique('email');
+            $table->string('remember_token', 100)->nullable();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email', 255);
+            $table->string('email', 255)->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
-            $table->primary('email');
         });
 
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id', 255);
+            $table->string('id', 255)->primary();
             $table->foreignId('user_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
-            $table->primary('id');
         });
     }
 
